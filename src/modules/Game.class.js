@@ -72,7 +72,7 @@ class Game {
 
       this.isWine(updateState);
 
-      if (this.isLose(updateState) === false) {
+      if (this.isLose(updateState)) {
         this.status = 'lose';
       }
 
@@ -98,7 +98,7 @@ class Game {
 
       this.isWine(updateState);
 
-      if (this.isLose(updateState) === false) {
+      if (this.isLose(updateState)) {
         this.status = 'lose';
       }
 
@@ -122,7 +122,7 @@ class Game {
 
       this.isWine(updateState);
 
-      if (this.isLose(updateState) === false) {
+      if (this.isLose(updateState)) {
         this.status = 'lose';
       }
 
@@ -151,7 +151,7 @@ class Game {
 
       this.isWine(updateState);
 
-      if (this.isLose(updateState) === false) {
+      if (this.isLose(updateState)) {
         this.status = 'lose';
       }
 
@@ -297,17 +297,23 @@ class Game {
   }
 
   isLose(state) {
-    let isStatus = false;
+    for (let row = 0; row < 4; row++) {
+      for (let col = 0; col < 4; col++) {
+        if (state[row][col] === 0) {
+          return false;
+        }
 
-    for (let row = 0; row < this.state.length; row++) {
-      for (let col = 1; col < this.state[row].length; col++) {
-        if (state[row][col] === 0 || state[row][col] === state[row][col - 1]) {
-          isStatus = true;
+        if (col < 3 && state[row][col] === state[row][col + 1]) {
+          return false;
+        }
+
+        if (row < 3 && state[row][col] === state[row + 1][col]) {
+          return false;
         }
       }
     }
 
-    return isStatus;
+    return true;
   }
 
   isWine(state) {
