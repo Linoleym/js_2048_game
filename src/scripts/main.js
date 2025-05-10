@@ -13,39 +13,32 @@ const score = document.querySelector('.game-score');
 button.addEventListener('click', (e) => {
   if (button.classList.contains('restart')) {
     game.restart();
-    game.start();
-  } else {
-    game.start();
+
+    updateStat(game.getState());
+
+    button.classList.remove('restart');
+    button.classList.add('start');
+    button.textContent = 'Start';
+
+    msgStart.classList.remove('hidden');
+    msgWin.classList.add('hidden');
+    msgLose.classList.add('hidden');
+
+    score.textContent = '0';
+
+    return;
   }
 
+  game.start();
   button.classList.remove('start');
   button.classList.add('restart');
+  button.textContent = 'Restart';
+
   msgStart.classList.add('hidden');
   msgWin.classList.add('hidden');
   msgLose.classList.add('hidden');
 
-  if (button.classList.contains('restart')) {
-    button.textContent = 'Restart';
-  } else {
-    button.textContent = 'Start';
-  }
-
-  for (let i = 0; i < 4; i++) {
-    const cells = gameRows[i].querySelectorAll('.field-cell');
-
-    for (let k = 0; k < 4; k++) {
-      const value = game.getState()[i][k];
-
-      cells[k].className = 'field-cell';
-
-      if (value === 0) {
-        cells[k].textContent = '';
-      } else {
-        cells[k].textContent = value;
-        cells[k].classList.add('field-cell--' + value);
-      }
-    }
-  }
+  updateStat(game.getState());
 });
 
 document.addEventListener('keydown', (e) => {
